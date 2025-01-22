@@ -17,7 +17,7 @@ Since this is a very basic implementation of a neural network, it won't be as ac
 
 | Dataset       | Accuracy |
 |--------------|----------|
-| [Iris Dataset](https://en.wikipedia.org/wiki/Iris_flower_data_set) | 98%      |
+| [Iris Dataset](https://en.wikipedia.org/wiki/Iris_flower_data_set) | 97.83% ± 1.91%    |
 | More datasets coming soon | - |
 
 
