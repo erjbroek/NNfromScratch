@@ -18,7 +18,7 @@ output_size = len(np.unique(mnist_train.iloc[:, 0].values))
 hidden_size = input_size // 2
 
 network = NeuralNetwork(input_size, hidden_size, output_size)
-epochs = 0
+epochs = 3
 learning_rate = 0.01
 
 loss, accuracy = network.train_mbgd(mnist_train_x, mnist_train_y, epochs, learning_rate, 64)
@@ -30,6 +30,7 @@ class DigitApp:
         self.root.title("Draw a Digit")
         self.root.configure(bg="#292929")
 
+        self.empty = True
         self.canvas = tk.Canvas(root, width=380, height=380, bg="black", highlightthickness=0)
         self.canvas.pack()
         self.canvas.place(x=10, y=10)
@@ -49,6 +50,7 @@ class DigitApp:
         self.display_image(self.img_flattened)
         
     def paint(self, event):
+        self.empty = False
         x1, y1 = (event.x - 18), (event.y - 16)
         x2, y2 = (event.x + 16), (event.y + 16)
         self.canvas.create_oval(x1, y1, x2, y2, fill="white", outline="white")
@@ -56,6 +58,7 @@ class DigitApp:
         self.process_output()
     
     def clear(self):
+        self.empty = True
         self.canvas.delete("all")
         self.image = Image.new("L", (380, 380), 0)
         self.draw = ImageDraw.Draw(self.image)
@@ -101,7 +104,7 @@ class DigitApp:
         return self.img_flattened
     
     def animate_prediction(self):
-        if 1 in self.img_flattened:
+        if not self.empty:
             animation_canvas = tk.Canvas(self.root, width=self.root.winfo_width(), height=self.root.winfo_height(), bg="#292929", highlightthickness=0)
             animation_canvas.place(x=0, y=0)
         
