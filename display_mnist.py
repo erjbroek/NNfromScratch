@@ -18,7 +18,7 @@ output_size = len(np.unique(mnist_train.iloc[:, 0].values))
 hidden_size = input_size // 2
 
 network = NeuralNetwork(input_size, hidden_size, output_size)
-epochs = 5
+epochs = 0
 learning_rate = 0.01
 
 loss, accuracy = network.train_mbgd(mnist_train_x, mnist_train_y, epochs, learning_rate, 64)
@@ -35,12 +35,17 @@ class DigitApp:
         self.canvas.place(x=10, y=10)
         self.canvas.bind("<B1-Motion>", self.paint)
 
-        self.button = tk.Button(root, text="clear", command=self.clear, bg="#292929", fg="white", font=("Helvetica", 12), width=10, highlightbackground="#292929", highlightthickness=1)
+        self.button = tk.Button(root, text="Clear", command=self.clear, bg="#292929", fg="white", font=("Helvetica", 12), width=10, highlightbackground="#292929", highlightthickness=1)
         self.button.pack()
         self.button.place(x=400, y=10)
+
+        self.button = tk.Button(root, text="Animate", command=self.animate_prediction, bg="#292929", fg="white", font=("Helvetica", 12), width=10, highlightbackground="#292929", highlightthickness=1)
+        self.button.pack()
+        self.button.place(x=400, y=250)
         
         self.image = Image.new("L", (380, 380), 0)
         self.draw = ImageDraw.Draw(self.image)
+        self.display_image([0 for _ in range(784)])
         
     def paint(self, event):
         x1, y1 = (event.x - 18), (event.y - 16)
@@ -90,6 +95,10 @@ class DigitApp:
         image_canvas = tk.Canvas(self.root, width=100, height=100, highlightthickness=0, bd=0)
         image_canvas.place(x=400, y=290)
         image_canvas.create_image(0, 0, anchor=tk.NW, image=self.tk_image)
+    
+    def animate_prediction(self):
+        print('test')
+
         
 root = tk.Tk()
 root.geometry("800x400")
