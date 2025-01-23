@@ -3,6 +3,7 @@ import numpy as np
 from PIL import Image, ImageDraw
 from network import NeuralNetwork
 import pandas as pd
+from pixel import Pixel
 from PIL import Image, ImageTk
 
 mnist_train = pd.read_csv('./mnist/mnist_train.csv', header=None)
@@ -18,7 +19,7 @@ output_size = len(np.unique(mnist_train.iloc[:, 0].values))
 hidden_size = input_size // 2
 
 network = NeuralNetwork(input_size, hidden_size, output_size)
-epochs = 3
+epochs = 0
 learning_rate = 0.01
 
 loss, accuracy = network.train_mbgd(mnist_train_x, mnist_train_y, epochs, learning_rate, 64)
@@ -107,6 +108,16 @@ class DigitApp:
         if not self.empty:
             animation_canvas = tk.Canvas(self.root, width=self.root.winfo_width(), height=self.root.winfo_height(), bg="#292929", highlightthickness=0)
             animation_canvas.place(x=0, y=0)
+
+            # this number makes sure the image will be the same size as the original drawing canvas
+            # to make the transition smoother from canvas to animation
+            size = 13.5714
+            for i in range(28 * 28):
+                row = i // 28
+                col = i % 28
+                pixel = Pixel(10 + col * size, 10 + row * size, size, size, self.img_flattened[0][i])
+                pixel_color = f"#{int(pixel.val * 255):02x}{int(pixel.val * 255):02x}{int(pixel.val * 255):02x}"
+                animation_canvas.create_rectangle(pixel.pos_x, pixel.pos_y, pixel.pos_x + pixel.width, pixel.pos_y + pixel.height, fill=pixel_color, outline="")
         
 root = tk.Tk()
 root.geometry("800x400")
