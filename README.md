@@ -2,6 +2,17 @@
 
 This project is a fully connected neural network implemented from scratch using NumPy. It currently supports batch gradient descent (BGD) and mini-batch gradient descent (MBGD) for training. Since this is a very basic implementation of a neural network, it won't be as accurate as more advanced models.
 
+## User Interface
+
+Other than a neural network, a simple ui has been created with TKinter.
+
+- **Digit Drawing Interface**: A simple user interface has been created using **Tkinter**. This allows users to draw their own digits on a canvas.
+- **Digit Conversion**: The drawn digits are then converted into a 28x28 pixel array, which can be fed into the neural network.
+- **Prediction of digits**: The neural network will give the probilities for each digits
+
+![display for digit writing](https://github.com/user-attachments/assets/16df88f5-7c6b-4538-8477-d09b4aafb462)
+
+
 ## Features
 
 - **Weight Initialization**: **He Initialization** is used for weight initialization to prevent issues like vanishing gradients
