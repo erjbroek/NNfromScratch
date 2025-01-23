@@ -45,7 +45,8 @@ class DigitApp:
         
         self.image = Image.new("L", (380, 380), 0)
         self.draw = ImageDraw.Draw(self.image)
-        self.display_image([0 for _ in range(784)])
+        self.img_flattened = np.zeros((1, 784))
+        self.display_image(self.img_flattened)
         
     def paint(self, event):
         x1, y1 = (event.x - 18), (event.y - 16)
@@ -63,8 +64,8 @@ class DigitApp:
         img = self.image.resize((28, 28))
         img = np.array(img) / 255
         
-        img_flattened = img.reshape(1, -1)
-        predictions = network.predict(img_flattened)
+        self.img_flattened = img.reshape(1, -1)
+        predictions = network.predict(self.img_flattened)
         self.display_image(img)
         self.display_output(predictions)
 
@@ -95,10 +96,14 @@ class DigitApp:
         image_canvas = tk.Canvas(self.root, width=100, height=100, highlightthickness=0, bd=0)
         image_canvas.place(x=400, y=290)
         image_canvas.create_image(0, 0, anchor=tk.NW, image=self.tk_image)
+
+    def get_image(self):
+        return self.img_flattened
     
     def animate_prediction(self):
-        print('test')
-
+        if 1 in self.img_flattened:
+            animation_canvas = tk.Canvas(self.root, width=self.root.winfo_width(), height=self.root.winfo_height(), bg="#292929", highlightthickness=0)
+            animation_canvas.place(x=0, y=0)
         
 root = tk.Tk()
 root.geometry("800x400")
