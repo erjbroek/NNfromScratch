@@ -112,13 +112,26 @@ class DigitApp:
             # this number makes sure the image will be the same size as the original drawing canvas
             # to make the transition smoother from canvas to animation
             size = 13.5714
+            pixels = []
             for i in range(28 * 28):
                 row = i // 28
                 col = i % 28
-                pixel = Pixel(10 + col * size, 10 + row * size, size, size, self.img_flattened[0][i])
-                pixel_color = f"#{int(pixel.val * 255):02x}{int(pixel.val * 255):02x}{int(pixel.val * 255):02x}"
-                animation_canvas.create_rectangle(pixel.pos_x, pixel.pos_y, pixel.pos_x + pixel.width, pixel.pos_y + pixel.height, fill=pixel_color, outline="")
-        
+                pixel_color = f"#{int(self.img_flattened[0][i] * 255):02x}{int(self.img_flattened[0][i] * 255):02x}{int(self.img_flattened[0][i] * 255):02x}"
+                pixel = Pixel(animation_canvas, 10 + col * size, 10 + row * size, size, size, pixel_color)
+                pixels.append(pixel)
+                
+            for i, pixel in enumerate(pixels):
+                x = 50
+                y = min(40 + (i // 25) * 10, 350)
+                if 180 <= y <= 230:
+                    y += 50
+                pixel.transform(x, y, 2000, 0.5)
+            
+            animation_canvas.after(2000, lambda: animation_canvas.create_text(55, 183, text=".", font=("Helvetica", 16), fill="white"))
+            animation_canvas.after(2000, lambda: animation_canvas.create_text(55, 198, text=".", font=("Helvetica", 16), fill="white"))
+            animation_canvas.after(2000, lambda: animation_canvas.create_text(55, 213, text=".", font=("Helvetica", 16), fill="white"))
+            
+    
 root = tk.Tk()
 root.geometry("800x400")
 app = DigitApp(root)
