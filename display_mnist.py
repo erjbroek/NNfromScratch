@@ -21,7 +21,7 @@ output_size = len(np.unique(mnist_train.iloc[:, 0].values))
 hidden_size = input_size // 2
 
 network = NeuralNetwork(input_size, hidden_size, output_size)
-epochs = 1
+epochs = 0
 learning_rate = 0.01
 
 loss, accuracy = network.train_mbgd(mnist_train_x, mnist_train_y, epochs, learning_rate, 64)
@@ -106,6 +106,10 @@ class DigitApp:
     def get_image(self):
         return self.img_flattened
     
+    # this is a very long method (which i want to split up in the future)
+    # this gives a visual of how the forward propogation of the neural network works
+    # it splits the image into the pixels, which are 'fed' into the neural network
+
     def animate_prediction(self):
         if not self.empty:
             animation_canvas = tk.Canvas(self.root, width=self.root.winfo_width(), height=self.root.winfo_height(), bg="#292929", highlightthickness=0)
@@ -126,12 +130,13 @@ class DigitApp:
                 y = min(40 + (i // 25) * 10, 350)
                 if 180 <= y <= 230:
                     y += 50
-                pixel.transform(x, y, 2000, 0.5)
+                pixel.transform(x, y, 2000, 0.5, 50, 0)
             
             animation_canvas.after(2000, lambda: animation_canvas.create_text(54, 183, text=".", font=("Helvetica", 16), fill="white"))
             animation_canvas.after(2000, lambda: animation_canvas.create_text(54, 194, text=".", font=("Helvetica", 16), fill="white"))
             animation_canvas.after(2000, lambda: animation_canvas.create_text(54, 205, text=".", font=("Helvetica", 16), fill="white"))
-
+            
+            # creates and renders the nodes for each layer
             input_layer = []
             hidden_layer = []
             output_layer = []
@@ -146,6 +151,7 @@ class DigitApp:
                 node = Node(animation_canvas, x + 150, y, 13, 0, 2000)
                 hidden_layer.append(node)
 
+            # the dots to show there are more nodes than possible to fit on the screen
             animation_canvas.after(2000, lambda: animation_canvas.create_text(x + 155, 183, text=".", font=("Helvetica", 16), fill="white"))
             animation_canvas.after(2000, lambda: animation_canvas.create_text(x + 155, 194, text=".", font=("Helvetica", 16), fill="white"))
             animation_canvas.after(2000, lambda: animation_canvas.create_text(x + 155, 205, text=".", font=("Helvetica", 16), fill="white"))
@@ -160,7 +166,12 @@ class DigitApp:
                 node = Node(animation_canvas, x + 300, y, 15, 0, 2000, is_output=True)
                 output_layer.append(node)
 
-            threshold = 0.07
+            # creates connections
+            # since there are too many connections (if i rendered them all, there would be about 550)
+            # i only render the ones with a high enough weight
+            # this only shows the weights with having more than 0 epochs, since they are initialised
+            # at a very low number
+            threshold = 0.09
             for i in range(len(input_layer) * len(hidden_layer)):
                 row = i // len(hidden_layer)
                 col = i % len(hidden_layer)
@@ -170,9 +181,9 @@ class DigitApp:
                     y0 = input_layer[row].pos_y + 7
                     x1 = hidden_layer[col].pos_x + 7
                     y1 = hidden_layer[col].pos_y + 7
-                    Connection(animation_canvas, x0, x1, y0, y1, connection_weight, threshold)
+                    Connection(animation_canvas, x0, x1, y0, y1, connection_weight, threshold, 1000, 3000)
             
-            threshold = 0.13
+            threshold = 0.2
             for i in range(len(hidden_layer) * len(output_layer)):
                 row = i // len(output_layer)
                 col = i % len(output_layer)
@@ -182,7 +193,19 @@ class DigitApp:
                     y0 = hidden_layer[row].pos_y + 7
                     x1 = output_layer[col].pos_x + 7
                     y1 = output_layer[col].pos_y + 7
-                    Connection(animation_canvas, x0, x1, y0, y1, connection_weight, threshold)
+                    Connection(animation_canvas, x0, x1, y0, y1, connection_weight, threshold, 1000, 3000)
+
+            # this moves the pixels again after the connections have been created
+            # for some reason i haven't figured out yet, the transform method also gets called
+            # the first time the pixels get moved (even though it should have a delay of 99999)
+            # with this reason, a seperate method has been made, which somehow fixes it
+            animation_canvas.after(7000, lambda: self.move_pixels_to_new_location(pixels))
+               
+    def move_pixels_to_new_location(self, pixels):
+        for i, pixel in enumerate(pixels):
+            new_x = 160
+            new_y = min((i // 27 * 13 + 20), 370)
+            pixel.transform(new_x, new_y, 2000, 0.5, 50, 999999)
 
 root = tk.Tk()
 root.geometry("800x400")
