@@ -4,6 +4,7 @@ from PIL import Image, ImageDraw
 from network import NeuralNetwork
 import pandas as pd
 from pixel import Pixel
+from node import Node
 from PIL import Image, ImageTk
 
 mnist_train = pd.read_csv('./mnist/mnist_train.csv', header=None)
@@ -119,8 +120,7 @@ class DigitApp:
                 pixel_color = f"#{int(self.img_flattened[0][i] * 255):02x}{int(self.img_flattened[0][i] * 255):02x}{int(self.img_flattened[0][i] * 255):02x}"
                 pixel = Pixel(animation_canvas, 10 + col * size, 10 + row * size, size, size, pixel_color)
                 pixels.append(pixel)
-                
-            for i, pixel in enumerate(pixels):
+
                 x = 50
                 y = min(40 + (i // 25) * 10, 350)
                 if 180 <= y <= 230:
@@ -130,8 +130,26 @@ class DigitApp:
             animation_canvas.after(2000, lambda: animation_canvas.create_text(55, 183, text=".", font=("Helvetica", 16), fill="white"))
             animation_canvas.after(2000, lambda: animation_canvas.create_text(55, 198, text=".", font=("Helvetica", 16), fill="white"))
             animation_canvas.after(2000, lambda: animation_canvas.create_text(55, 213, text=".", font=("Helvetica", 16), fill="white"))
+
+            input_layer = []
+            hidden_layer = []
+            output_layer = []
+            x = 160
+            for i in range(27):
+                y = i * 13 + 20
+                node = Node(animation_canvas, x, y, 11, 0, 2000)
+                input_layer.append(node)
             
-    
+            for i in range(23):
+                y = i * 13 + 40
+                node = Node(animation_canvas, x + 150, y, 11, 0, 2000)
+                hidden_layer.append(node)
+
+            for i in range(10):
+                y = i * 22 + 70
+                node = Node(animation_canvas, x + 300, y, 15, 0, 2000, is_output=True)
+                output_layer.append(node)
+
 root = tk.Tk()
 root.geometry("800x400")
 app = DigitApp(root)
