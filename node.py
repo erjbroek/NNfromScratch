@@ -3,6 +3,8 @@ class Node:
     self.start_color = (41, 41, 41)
     self.hex_color = "#%02x%02x%02x" % self.start_color
     self.canvas = canvas
+    self.pos_x = pos_x
+    self.pos_y = pos_y
     self.value = value
     self.delay = delay
     self.next = None

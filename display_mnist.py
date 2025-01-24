@@ -5,6 +5,7 @@ from network import NeuralNetwork
 import pandas as pd
 from pixel import Pixel
 from node import Node
+from connection import Connection
 from PIL import Image, ImageTk
 
 mnist_train = pd.read_csv('./mnist/mnist_train.csv', header=None)
@@ -20,7 +21,7 @@ output_size = len(np.unique(mnist_train.iloc[:, 0].values))
 hidden_size = input_size // 2
 
 network = NeuralNetwork(input_size, hidden_size, output_size)
-epochs = 0
+epochs = 1
 learning_rate = 0.01
 
 loss, accuracy = network.train_mbgd(mnist_train_x, mnist_train_y, epochs, learning_rate, 64)
@@ -127,9 +128,9 @@ class DigitApp:
                     y += 50
                 pixel.transform(x, y, 2000, 0.5)
             
-            animation_canvas.after(2000, lambda: animation_canvas.create_text(55, 183, text=".", font=("Helvetica", 16), fill="white"))
-            animation_canvas.after(2000, lambda: animation_canvas.create_text(55, 198, text=".", font=("Helvetica", 16), fill="white"))
-            animation_canvas.after(2000, lambda: animation_canvas.create_text(55, 213, text=".", font=("Helvetica", 16), fill="white"))
+            animation_canvas.after(2000, lambda: animation_canvas.create_text(54, 183, text=".", font=("Helvetica", 16), fill="white"))
+            animation_canvas.after(2000, lambda: animation_canvas.create_text(54, 194, text=".", font=("Helvetica", 16), fill="white"))
+            animation_canvas.after(2000, lambda: animation_canvas.create_text(54, 205, text=".", font=("Helvetica", 16), fill="white"))
 
             input_layer = []
             hidden_layer = []
@@ -140,15 +141,48 @@ class DigitApp:
                 node = Node(animation_canvas, x, y, 11, 0, 2000)
                 input_layer.append(node)
             
-            for i in range(23):
-                y = i * 13 + 40
-                node = Node(animation_canvas, x + 150, y, 11, 0, 2000)
+            for i in range(7):
+                y = i * 20 + 40
+                node = Node(animation_canvas, x + 150, y, 13, 0, 2000)
+                hidden_layer.append(node)
+
+            animation_canvas.after(2000, lambda: animation_canvas.create_text(x + 155, 183, text=".", font=("Helvetica", 16), fill="white"))
+            animation_canvas.after(2000, lambda: animation_canvas.create_text(x + 155, 194, text=".", font=("Helvetica", 16), fill="white"))
+            animation_canvas.after(2000, lambda: animation_canvas.create_text(x + 155, 205, text=".", font=("Helvetica", 16), fill="white"))
+
+            for i in range(8, 15):
+                y = i * 20 + 60
+                node = Node(animation_canvas, x + 150, y, 13, 0, 2000)
                 hidden_layer.append(node)
 
             for i in range(10):
                 y = i * 22 + 70
                 node = Node(animation_canvas, x + 300, y, 15, 0, 2000, is_output=True)
                 output_layer.append(node)
+
+            threshold = 0.07
+            for i in range(len(input_layer) * len(hidden_layer)):
+                row = i // len(hidden_layer)
+                col = i % len(hidden_layer)
+                connection_weight = network.W_IH[row, col]
+                if abs(connection_weight) > threshold:
+                    x0 = input_layer[row].pos_x + 7
+                    y0 = input_layer[row].pos_y + 7
+                    x1 = hidden_layer[col].pos_x + 7
+                    y1 = hidden_layer[col].pos_y + 7
+                    Connection(animation_canvas, x0, x1, y0, y1, connection_weight, threshold)
+            
+            threshold = 0.13
+            for i in range(len(hidden_layer) * len(output_layer)):
+                row = i // len(output_layer)
+                col = i % len(output_layer)
+                connection_weight = network.W_HO[row, col]
+                if abs(connection_weight) > threshold:
+                    x0 = hidden_layer[row].pos_x + 7
+                    y0 = hidden_layer[row].pos_y + 7
+                    x1 = output_layer[col].pos_x + 7
+                    y1 = output_layer[col].pos_y + 7
+                    Connection(animation_canvas, x0, x1, y0, y1, connection_weight, threshold)
 
 root = tk.Tk()
 root.geometry("800x400")
