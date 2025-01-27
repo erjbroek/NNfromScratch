@@ -11,8 +11,7 @@ class Animations:
         self.network = network
         pass
 
-    def move_pixels_left(self, canvas, image,):
-
+    def move_pixels_left(self, canvas, image):
         # this number makes sure the image will be the same size as the original drawing canvas
         # to make the transition smoother from canvas to animation
         size = 13.5714

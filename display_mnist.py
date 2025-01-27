@@ -139,7 +139,7 @@ class DigitApp:
 
     def move_pixels_to_new_location(self, pixels):
         for i, pixel in enumerate(pixels):
-            new_x = 167
+            new_x = 160
             new_y = min((i // 27 * 13 + 27), 370)
             pixel.transform(new_x, new_y, 2000, 0.7, 50, 999)
 
