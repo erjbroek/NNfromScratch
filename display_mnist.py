@@ -126,6 +126,16 @@ class DigitApp:
             animation_canvas.after(19000, lambda c=connections_h_o, p=pixels: self.animations.animate_feedforward(c, p, 650, 0.1))
 
             animation_canvas.after(20000, lambda: self.animations.color_output_values(self.predictions, output_layer))
+            animation_canvas.after(21000, lambda: self.render_remove_button(animation_canvas))
+
+    def render_remove_button(self, animation_canvas):
+        self.remove_button = tk.Button(self.root, text="Return", command=lambda: self.remove_animation_canvas(animation_canvas), bg="#292929", fg="white", font=("Helvetica", 12), width=15, highlightbackground="#292929", highlightthickness=1)
+        self.remove_button.place(x=10, y=10)
+
+    def remove_animation_canvas(self, animation_canvas):
+        animation_canvas.destroy()
+        self.remove_button.destroy()
+        self.canvas.lift("all")
 
     def move_pixels_to_new_location(self, pixels):
         for i, pixel in enumerate(pixels):
