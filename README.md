@@ -23,7 +23,7 @@ Other than a neural network, a simple ui has been created with TKinter.
 - **Hidden Layer Activation**: **ReLU** (Rectified Linear Unit) is used as the activation function for hidden layers, allowing the model to learn non-linear relationships.
 - **Output Layer Activation**: **Softmax** is used for the output layer to calculate class probabilities, ideal for multi-class classification tasks.
 - **Loss Function**: **Cross-Entropy Loss** is employed to quantify the difference between the true labels and predicted probabilities.
-- **Mini batch gradient descend**: The network uses **Backpropagation** using both Mini batch gradient descent and batch gradient descent to optimize weights based on the gradients computed from the loss function.
+- **Mini batch gradient descend**: The network uses **Backpropagation** using both Mini batch gradient descent or batch gradient descent to optimize weights based on the gradients computed from the loss function.
 
 
 ## Performance
