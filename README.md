@@ -11,7 +11,7 @@ Other than a neural network, a simple ui has been created with TKinter.
 - **Prediction of digits**: The neural network will give the probilities for each digits
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/16df88f5-7c6b-4538-8477-d09b4aafb462" width="500">
+  <img src="https://github.com/user-attachments/assets/213075eb-8b9e-44c7-8cd3-2085500f661f" width="500">
   <img src="https://github.com/user-attachments/assets/8a88a6c6-b8e6-4cda-afd7-f3792fddfc7a" width="500">
 </p>
 
@@ -23,7 +23,7 @@ Other than a neural network, a simple ui has been created with TKinter.
 - **Hidden Layer Activation**: **ReLU** (Rectified Linear Unit) is used as the activation function for hidden layers, allowing the model to learn non-linear relationships.
 - **Output Layer Activation**: **Softmax** is used for the output layer to calculate class probabilities, ideal for multi-class classification tasks.
 - **Loss Function**: **Cross-Entropy Loss** is employed to quantify the difference between the true labels and predicted probabilities.
-- **Mini batch gradient descend**: The network uses **Backpropagation** using both Mini batch gradient descent and batch gradient descent to optimize weights based on the gradients computed from the loss function.
+- **Mini batch gradient descend**: The network uses **Backpropagation** using both Mini batch gradient descent or batch gradient descent to optimize weights based on the gradients computed from the loss function.
 
 
 ## Performance
