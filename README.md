@@ -10,8 +10,10 @@ Other than a neural network, a simple ui has been created with TKinter.
 - **Digit Conversion**: The drawn digits are then converted into a 28x28 pixel array, which can be fed into the neural network.
 - **Prediction of digits**: The neural network will give the probilities for each digits
 
-![display for digit writing](https://github.com/user-attachments/assets/16df88f5-7c6b-4538-8477-d09b4aafb462)
-![visualisation of neural net](https://github.com/user-attachments/assets/8a88a6c6-b8e6-4cda-afd7-f3792fddfc7a)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/16df88f5-7c6b-4538-8477-d09b4aafb462" width="500">
+  <img src="https://github.com/user-attachments/assets/8a88a6c6-b8e6-4cda-afd7-f3792fddfc7a" width="500">
+</p>
 
 
 
