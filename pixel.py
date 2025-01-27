@@ -10,11 +10,11 @@ class Pixel:
         self.rect = canvas.create_rectangle(
             pos_x, pos_y, pos_x + width, pos_y + height, fill=color, outline=""
         )
+        self.moved = False
 
     # transforms the pixels to show that each pixel is an input value for the neural network
     # after the pixels are in a long list, it is more clear that each pixel is a variable
     def transform(self, target_x, target_y, duration_ms, shrink_factor=1.0, steps=50, start_delay_ms=1000):
-        print(target_y)
         self.target_x = target_x
         self.target_y = target_y
         self.start_x = self.pos_x

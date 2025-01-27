@@ -28,3 +28,9 @@ class Node:
       self.outline_color = "#%02x%02x%02x" % (outline_color, outline_color, outline_color)
       self.canvas.itemconfig(self.oval, fill=self.hex_color, outline=self.outline_color, width=1)
       self.canvas.after(self.delay // 100, self.fade_in, step + 1)
+
+  def change_color(self, value):
+    self.start_color = (0, 0, 0)
+    self.end_color_outline = (41, 41, 41)
+    self.end_color = (int(value * 255), int(value * 255), int(value * 255))
+    self.fade_in(0)
