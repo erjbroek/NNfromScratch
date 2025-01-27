@@ -82,7 +82,7 @@ class DigitApp:
         output_canvas = tk.Canvas(self.root, width=140 + pos_x, height=380, bg="#292929", highlightthickness=0)
         output_canvas.place(x=600 - pos_x, y=10)
         self.predictions = predictions[0]
-        predictions = np.array([round(p * 100, 0) for p in self.predictions])
+        predictions = np.array([round(p * 100, 1) for p in self.predictions])
         for i, prediction in enumerate(predictions):
             if i == predictions.argmax():
                 output_canvas.create_text(20 + pos_x, 20 + (i * 37), text=f"{i}", font=("Helvetica", 12, "bold"), fill="white")
@@ -122,11 +122,11 @@ class DigitApp:
             connections_i_h, connections_h_o = self.animations.spawn_connections(animation_canvas, input_layer, hidden_layer, output_layer)
 
             animation_canvas.after(9000, lambda: self.move_pixels_to_new_location(pixels))
-            animation_canvas.after(14000, lambda c=connections_i_h, p=pixels: self.animations.animate_feedforward(c, p, 410, 0.5))
+            animation_canvas.after(14000, lambda c=connections_i_h, p=pixels: self.animations.animate_feedforward(c, p, 410, 0.7))
             animation_canvas.after(19000, lambda c=connections_h_o, p=pixels: self.animations.animate_feedforward(c, p, 650, 0.1))
 
-            animation_canvas.after(20000, lambda: self.animations.color_output_values(self.predictions, output_layer))
-            animation_canvas.after(21000, lambda: self.render_remove_button(animation_canvas))
+            animation_canvas.after(21000, lambda: self.animations.color_output_values(self.predictions, output_layer))
+            animation_canvas.after(22000, lambda: self.render_remove_button(animation_canvas))
 
     def render_remove_button(self, animation_canvas):
         self.remove_button = tk.Button(self.root, text="Return", command=lambda: self.remove_animation_canvas(animation_canvas), bg="#292929", fg="white", font=("Helvetica", 12), width=15, highlightbackground="#292929", highlightthickness=1)
@@ -141,8 +141,7 @@ class DigitApp:
         for i, pixel in enumerate(pixels):
             new_x = 167
             new_y = min((i // 27 * 13 + 27), 370)
-            pixel.transform(new_x, new_y, 2000, 0.5, 50, 999)
-
+            pixel.transform(new_x, new_y, 2000, 0.7, 50, 999)
 
 root = tk.Tk()
 root.geometry("800x400")

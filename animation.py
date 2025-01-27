@@ -26,6 +26,7 @@ class Animations:
             canvas.after(2000, lambda: canvas.create_text(54, 183, text=".", font=("Helvetica", 16), fill="white"))
             canvas.after(2000, lambda: canvas.create_text(54, 194, text=".", font=("Helvetica", 16), fill="white"))
             canvas.after(2000, lambda: canvas.create_text(54, 205, text=".", font=("Helvetica", 16), fill="white"))
+            canvas.create_text(60, 390, text="784 pixels", font=("Helvetica", 10), fill="white")
             x = 50
             y = min(40 + (i // 25) * 10, 350)
             if 180 <= y <= 230:
@@ -39,6 +40,8 @@ class Animations:
             y = i * 13 + 20
             node = Node(canvas, x, y, 11, 0, 2000)
             layer.append(node)
+        canvas.create_text(x, 390, text="784 nodes", font=("Helvetica", 10), fill="white")
+
         return layer
 
     def spawn_hiddennodes(self, canvas, x):
@@ -52,6 +55,7 @@ class Animations:
         canvas.after(2000, lambda: canvas.create_text(x + 155, 183, text=".", font=("Helvetica", 16), fill="white"))
         canvas.after(2000, lambda: canvas.create_text(x + 155, 194, text=".", font=("Helvetica", 16), fill="white"))
         canvas.after(2000, lambda: canvas.create_text(x + 155, 205, text=".", font=("Helvetica", 16), fill="white"))
+        canvas.create_text(x + 150, 390, text="392 nodes", font=("Helvetica", 10), fill="white")
 
         for i in range(8, 15):
             y = i * 20 + 60
@@ -66,6 +70,7 @@ class Animations:
             y = i * 22 + 70
             node = Node(canvas, x + 300, y, 15, 0, 2000, is_output=True)
             layer.append(node)
+        canvas.create_text(x + 300, 390, text="10 nodes", font=("Helvetica", 10), fill="white")
         return layer
 
     def spawn_connections(self, animation_canvas, input_layer, hidden_layer, output_layer):
@@ -115,4 +120,4 @@ class Animations:
         for i, node in enumerate(output_layer):
             node.change_color(predictions[i])
             if i == predictions.argmax():
-                node.canvas.create_text(node.pos_x + 20, node.pos_y + 7, text=f"{i}: {round(predictions[i] * 100, 2)}% certain", font=("Helvetica", 12), fill="white", anchor=tk.W)
+                node.canvas.create_text(node.pos_x + 20, node.pos_y + 7, text=f"{i}: {round(predictions[i] * 100, 1)}% certain", font=("Helvetica", 12), fill="white", anchor=tk.W)
