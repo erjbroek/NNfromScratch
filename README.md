@@ -1,6 +1,6 @@
 # Neural Network from Scratch (NumPy-based)
 
-This project is a fully connected neural network implemented from scratch using NumPy. It currently supports batch gradient descent (BGD) and mini-batch gradient descent (MBGD) for training. Since this is a very basic implementation of a neural network, it won't be as accurate as more advanced models.
+This project is a fully connected neural network implemented from scratch using NumPy. It currently supports batch gradient descent (BGD) and mini-batch gradient descent (MBGD) for training. Since this is a very basic implementation of a neural network, it won't be as accurate as more advanced models line cnn's.
 
 ## User Interface
 
