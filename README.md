@@ -30,8 +30,9 @@ Other than a neural network, a simple ui has been created with TKinter.
 
 | Dataset       | Accuracy | hidden layer | learning rate |
 |--------------|----------| -------- | ------- |
-| [Iris Dataset](https://en.wikipedia.org/wiki/Iris_flower_data_set) | 97.83%    | 1 hidden layer, 7 nodes | 0.0001 | 
-| [MNIST](https://en.wikipedia.org/wiki/MNIST_database) | 98.47%    | 1 hidden layer, 392 nodes | 0.01 |
+| [Iris Dataset](https://en.wikipedia.org/wiki/Iris_flower_data_set) | 99.83%    | 1 hidden layer, 7 nodes | 0.0001 | 
+| [MNIST](https://en.wikipedia.org/wiki/MNIST_database) | 98.44%    | 1 hidden layer, 392 nodes | 0.01 |
+| [Fashion-MNIST](https://github.com/zalandoresearch/fashion-mnist) | 90.24%    | 1 hidden layer, 392 nodes | 0.001 |
 | More datasets coming soon
 
 
