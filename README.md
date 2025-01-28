@@ -9,6 +9,7 @@ Other than a neural network, a simple ui has been created with TKinter.
 - **Digit Drawing Interface**: A simple user interface has been created using **Tkinter**. This allows users to draw their own digits on a canvas.
 - **Digit Conversion**: The drawn digits are then converted into a 28x28 pixel array, which can be fed into the neural network.
 - **Prediction of digits**: The neural network will give the probilities for each digits
+- **Animation of forward propogation**: to give a clearer overview of how the predictions are made, an animation has been made of how it (roughly) works
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/213075eb-8b9e-44c7-8cd3-2085500f661f" width="500">
