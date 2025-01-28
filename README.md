@@ -25,6 +25,8 @@ Other than a neural network, a simple ui has been created with TKinter.
 - **Output Layer Activation**: **Softmax** is used for the output layer to calculate class probabilities, ideal for multi-class classification tasks.
 - **Loss Function**: **Cross-Entropy Loss** is employed to quantify the difference between the true labels and predicted probabilities.
 - **Mini batch gradient descend**: The network uses **Backpropagation** using both Mini batch gradient descent or batch gradient descent to optimize weights based on the gradients computed from the loss function.
+- **Optimizer**: Uses the **Adam Optimizer**, which combines the benefits of AdaGrad and RMSProp for faster and better training.
+
 
 
 ## Performance
@@ -40,7 +42,5 @@ Other than a neural network, a simple ui has been created with TKinter.
 ## Future Plans
 
 - Test on additional datasets
-- Add UI to draw digits for network to predict
-- Experimenting with optimisers
 - Add support for multiple hidden layers
 
