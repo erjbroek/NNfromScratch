@@ -6,7 +6,7 @@ class NeuralNetwork:
   # the second dimension is the amount of nodes in the next layer
   # the bias is a vector (like a single list) of zeros, which will be updated during backpropagation
   def __init__(self, input_size, hidden_size, output_size, learning_rate=0.01, beta1=0.9, beta2=0.999):
-    # he initialization is used to initialise weights
+    # hE initialization is used to initialise weights
     self.W_IH = np.random.randn(input_size, hidden_size) * np.sqrt(2.0 / input_size)
     self.W_HO = np.random.randn(hidden_size, output_size) * np.sqrt(2.0 / hidden_size)
     self.b_H = np.zeros(hidden_size)
@@ -106,7 +106,7 @@ class NeuralNetwork:
     self.W_HO -= self.learning_rate * corrected_momentum_ho / (np.sqrt(corrected_adaptive_lr_ho) + self.epsilon)
     self.b_H -= self.learning_rate * corrected_momentum_bias_h / (np.sqrt(corrected_adaptive_lr_bias_h) + self.epsilon)
     self.b_O -= self.learning_rate * corrected_momentum_bias_o / (np.sqrt(corrected_adaptive_lr_bias_o) + self.epsilon)
-
+ 
     
   def train_bgd(self, x, y, epochs, learning_rate):
     loss = []
@@ -128,7 +128,7 @@ class NeuralNetwork:
     accuracy = []
     n_samples = x.shape[0]
     
-    for epoch in range(epochs):
+    for _ in range(epochs):
       indices = np.arange(n_samples)
       np.random.shuffle(indices)
       x = x[indices]
