@@ -6,8 +6,8 @@ import pandas as pd
 from PIL import Image, ImageTk
 from animation import Animations
 
-mnist_train = pd.read_csv('./mnist/mnist_train.csv', header=None)
-mnist_test = pd.read_csv('./mnist/mnist_test.csv', header=None)
+mnist_train = pd.read_csv('./data/mnist/mnist_train.csv', header=None)
+mnist_test = pd.read_csv('./data/mnist/mnist_test.csv', header=None)
 
 mnist_train_x = mnist_train.iloc[:, 1:].values / 255
 mnist_train_y = np.eye(10)[mnist_train.iloc[:, 0].values]

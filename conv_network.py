@@ -3,14 +3,14 @@ from scipy import signal
 
 class Convolution:
   # currently, code only supports relu activation
-  def __init__(self, num_kernels, kernal_size, stride, padding, activation='relu'):
+  def __init__(self, x, num_kernels, kernal_size, stride, padding, activation='relu'):
     self.num_kernels = num_kernels
     self.kernel_size = kernal_size
     self.stride = stride
     self.padding = padding
     self.activation = activation
     self.input = None
-    self.kernels = np.random.randn(num_kernels, kernal_size, kernal_size) * np.sqrt(2.0 / num_kernels)
+    self.kernels = np.random.randn(num_kernels, kernal_size, kernal_size, x.shape[-1]) * np.sqrt(2.0 / num_kernels)
     self.bias = np.zeros(num_kernels)
 
   def forward(self, x):
@@ -46,6 +46,8 @@ class Convolution:
           for j in range(output_width):
             i_start, j_start = i * self.stride, j * self.stride
             region = self.input[b, :, i_start:i_start+self.kernel_size, j_start:j_start+self.kernel_size]
+            print("region shape:", region.shape)
+            print("output_gradient shape:", output_gradient.shape)
             kernel_gradient[k] += output_gradient[b, k, i, j] * region
             input_gradient[b, :, i_start:i_start+self.kernel_size, j_start:j_start+self.kernel_size] += (
               output_gradient[b, k, i, j] * self.kernels[k]
@@ -64,8 +66,12 @@ class Convolution:
   def backpropagation1(self, output_gradient, learning_rate):
     batch_size = self.input.shape[0]
     kernel_gradient = np.zeros_like(self.kernels)
+    
     for b in range(batch_size):
         for k in range(self.kernels.shape[0]):
+            
+            print("self.input[b] shape:", self.input[b].shape)
+            print("output_gradient[b, k] shape:", output_gradient[b, k].shape)
             kernel_gradient[k] += signal.correlate(self.input[b], output_gradient[b, k], mode='valid')
 
     kernel_gradient /= batch_size
@@ -91,27 +97,57 @@ class Pooling:
 
   def forward(self, x):
     if self.padding > 0:
-      x = np.pad(x, ((self.padding, self.padding), (self.padding, self.padding), (0, 0)), mode='constant')
+      x = np.pad(x, ((0, 0), (self.padding, self.padding), (self.padding, self.padding), (0, 0)), mode='constant')
 
-    InputHeight, InputWidth, ChannelCount = x.shape
-    output_height = (InputHeight - self.pool_size) // self.stride + 1
-    output_width = (InputWidth - self.pool_size) // self.stride + 1
-    output = np.zeros((output_height, output_width, ChannelCount))
+    batch_size, input_height, input_width, channels = x.shape
+    output_height = (input_height - self.pool_size) // self.stride + 1
+    output_width = (input_width - self.pool_size) // self.stride + 1
+    output = np.zeros((batch_size, output_height, output_width, channels))
 
-    # like the convolutional layer, this moves over the "image"
-    # instead of multiplying the values with the weigts from the kernel matrix, it simply gets the average or max value
-    # this is done to reduce the size of the image while still keeping the most important parts 
-    # (results of this often look like the image has been blurred)
+    # mask is used to store the location of the max value in the region
+    # since the gradient is only calculated for the max value, the other gradients are zero
+    self.input = x
+    self.mask = np.zeros_like(x) if self.pooling_type == 'max' else None
+
     for i in range(output_height):
       for j in range(output_width):
-        region = x[i * self.stride : i * self.stride + self.pool_size, j * self.stride : j * self.stride + self.pool_size, :]
+        region = x[:, i * self.stride: i * self.stride + self.pool_size,
+                   j * self.stride: j * self.stride + self.pool_size, :]
 
-        for c in range(ChannelCount):
-          if self.pooling_type == 'max':
-            output[i, j, c] = np.max(region[:, :, c])
-          elif self.pooling_type == 'average':
-            output[i, j, c] = np.mean(region[:, :, c])
-    output = np.maximum(0, output)
+        if self.pooling_type == 'max':
+          max_values = np.max(region, axis=(1, 2), keepdims=True)
+          output[:, i, j, :] = max_values[:, 0, 0, :]
+          mask = (region == max_values)
+          self.mask[:, i * self.stride: i * self.stride + self.pool_size, j * self.stride: j * self.stride + self.pool_size, :] = mask
+
+        elif self.pooling_type == 'average':
+          output[:, i, j, :] = np.mean(region, axis=(1, 2))
+
     return output
+
+  def backpropagation(self, output_gradient):
+    batch_size, input_height, input_width, channels = self.input.shape
+    _, output_height, output_width, _ = output_gradient.shape
+
+    input_gradient = np.zeros_like(self.input)
+
+    for i in range(output_height):
+      for j in range(output_width):
+        if self.pooling_type == 'max':
+          input_gradient[:, i * self.stride: i * self.stride + self.pool_size,
+                         j * self.stride: j * self.stride + self.pool_size, :] += (
+            self.mask[:, i * self.stride: i * self.stride + self.pool_size,
+                      j * self.stride: j * self.stride + self.pool_size, :] * 
+            output_gradient[:, i:i+1, j:j+1, :]
+          )
+
+        elif self.pooling_type == 'average':
+          avg_grad = output_gradient[:, i, j, :][:, np.newaxis, np.newaxis, :]
+          input_gradient[:, i * self.stride: i * self.stride + self.pool_size,
+                         j * self.stride: j * self.stride + self.pool_size, :] += (
+            avg_grad / (self.pool_size * self.pool_size)
+          )
+
+    return input_gradient
 
        
