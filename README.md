@@ -43,4 +43,6 @@ Other than a neural network, a simple ui has been created with TKinter.
 
 - Test on additional datasets
 - Add support for multiple hidden layers
+- Implement cnn
+- Compare model performance against neural nets from libraries
 
