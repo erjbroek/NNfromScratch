@@ -69,7 +69,7 @@ class NeuralNetwork:
     self.timestep += 1
 
     Eo = self.cost(y_hat, y, deriv=True)
-    Eh = np.dot(Eo, self.W_HO.T) * self.relu(self.hidden_z, True)
+    Eh = np.dot (Eo, self.W_HO.T) * self.relu(self.hidden_z, True)
     
     dW_IH = np.dot(x.T, Eh)
     db_H = np.sum(Eh, axis=0)
@@ -128,7 +128,7 @@ class NeuralNetwork:
     accuracy = []
     n_samples = x.shape[0]
     
-    for _ in range(epochs):
+    for epoch in range(epochs):
       indices = np.arange(n_samples)
       np.random.shuffle(indices)
       x = x[indices]
@@ -140,7 +140,7 @@ class NeuralNetwork:
         batch_y = y[start:end]
         
         y_hat = self.feedforward(batch_x)
-        self.backpropagation(batch_x, y_hat, batch_y, learning_rate)
+        self.backpropagation(batch_x, y_hat, batch_y)
       
       y_hat = self.feedforward(x)
       loss.append(self.cost(y_hat, y))
@@ -148,6 +148,7 @@ class NeuralNetwork:
       targets = np.argmax(y, axis=1)
       acc = np.mean(predictions == targets) * 100
       accuracy.append(acc)
+      print(epoch, acc)
     return loss, accuracy
   
   def evaluate(self, x, y):
