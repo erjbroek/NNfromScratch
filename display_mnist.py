@@ -19,7 +19,7 @@ output_size = len(np.unique(mnist_train.iloc[:, 0].values))
 hidden_size = input_size // 2
 
 network = NeuralNetwork(input_size, hidden_size, output_size)
-epochs = 1
+epochs = 5
 learning_rate = 0.01
 
 loss, accuracy = network.train_mbgd(mnist_train_x, mnist_train_y, epochs, learning_rate, 64)
@@ -28,7 +28,7 @@ print(accuracy)
 class DigitApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Draw a Digit")
+        self.root.title("Draw a digit")
         self.root.configure(bg="#292929")
 
         self.animations = Animations(network)

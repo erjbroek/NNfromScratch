@@ -87,7 +87,6 @@ class NeuralNetwork:
     self.adaptive_lr_bias_h = self.beta2 * self.adaptive_lr_bias_h + (1 - self.beta2) * (db_H ** 2)
     self.momentum_bias_o = self.beta1 * self.momentum_bias_o + (1 - self.beta1) * db_O
     self.adaptive_lr_bias_o = self.beta2 * self.adaptive_lr_bias_o + (1 - self.beta2) * (db_O ** 2)
-
     # Bias correction so that moments are unbiased, because they zero when initialised
     corrected_momentum_ih = self.momentum_ih / (1 - self.beta1 ** self.timestep)
     corrected_adaptive_lr_ih = self.adaptive_lr_ih / (1 - self.beta2 ** self.timestep)
@@ -106,8 +105,7 @@ class NeuralNetwork:
     self.W_HO -= self.learning_rate * corrected_momentum_ho / (np.sqrt(corrected_adaptive_lr_ho) + self.epsilon)
     self.b_H -= self.learning_rate * corrected_momentum_bias_h / (np.sqrt(corrected_adaptive_lr_bias_h) + self.epsilon)
     self.b_O -= self.learning_rate * corrected_momentum_bias_o / (np.sqrt(corrected_adaptive_lr_bias_o) + self.epsilon)
- 
-    
+
   def train_bgd(self, x, y, epochs, learning_rate):
     loss = []
     accuracy = []
@@ -148,7 +146,7 @@ class NeuralNetwork:
       targets = np.argmax(y, axis=1)
       acc = np.mean(predictions == targets) * 100
       accuracy.append(acc)
-      print(epoch, acc)
+      print(f'Epoch: {epoch+1}/{epochs}, Loss: {loss[-1]}, Accuracy: {acc}')
     return loss, accuracy
   
   def evaluate(self, x, y):
