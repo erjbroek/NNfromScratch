@@ -23,7 +23,7 @@ class NeuralNetwork1:
     n_samples = self.x_train.shape[0]
     loss = []
     accuracy = []
-
+    
     for epoch in range(epochs):
       indices = np.arange(n_samples)
       np.random.shuffle(indices)
@@ -52,21 +52,20 @@ class NeuralNetwork1:
             previous_hidden_weights = self.network[self.network.index(layer) + 1].weights
             gradient = layer.backward(previous_hidden_activation, previous_hidden_weights.T, gradient)
           else:
-            previous_hidden_activation = batch_x
+            previous_hidden_activation = x[start:end]
             previous_hidden_weights = self.network[self.network.index(layer) + 1].weights
             gradient = layer.backward(previous_hidden_activation, previous_hidden_weights.T, gradient)
 
+      new_x = self.x_test
+      # x = self.x_test
+      for layer in self.network:
+        new_x = layer.forward(new_x)
+      y_hat = new_x
 
-
-        x = self.x_test
-        for layer in self.network:
-          x = layer.forward(x)
-        y_hat = x
-
-        predictions = np.argmax(y_hat, axis=1)
-        targets = np.argmax(self.y_test, axis=1)
-        acc = np.mean(predictions == targets) * 100
-        accuracy.append(acc)
-        print(f'Epoch: {epoch+1}/{epochs}, Accuracy: {acc}')
-      return loss, accuracy
+      predictions = np.argmax(y_hat, axis=1)
+      targets = np.argmax(self.y_test, axis=1)
+      acc = np.mean(predictions == targets) * 100
+      accuracy.append(acc)
+      print(f'Epoch: {epoch+1}/{epochs}, Accuracy: {acc}')
+    return loss, accuracy
       

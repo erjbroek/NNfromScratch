@@ -35,7 +35,7 @@ class output_layer:
     return self.activation
   
   def backward(self, hidden_activation, y_hat, y):
-    print("backward")
+    # print("backward")
     self.timestep += 1
     gradient_output = self.cost(y_hat, y, deriv=True)
 
