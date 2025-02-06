@@ -70,16 +70,11 @@ class NeuralNetwork:
 
     Eo = self.cost(y_hat, y, deriv=True)
     Eh = np.dot(Eo, self.W_HO.T) * self.relu(self.hidden_z, True)
-    # print(f"Eo: {Eo.shape}, Eh: {Eh.shape}")
-    # print(f"weights: {self.W_HO.T.shape}")
 
     dW_IH = np.dot(x.T, Eh)
     db_H = np.sum(Eh, axis=0)
     dW_HO = np.dot(self.hidden_activation.T, Eo)
     db_O = np.sum(Eo, axis=0)
-    print()
-    print(f"x shape: {x.T.shape}")
-    print(f"momentum_weights: {self.momentum_ih.shape}, weights_gradient: {dW_IH.shape}")
 
     # m is the first moment, v is the second moment
     # the first moment is the average of the gradients
