@@ -6,6 +6,8 @@ class output_layer:
     self.output_size = output_size
     self.weights = np.random.randn(input_size, output_size) * np.sqrt(2.0 / input_size)
     self.bias = np.zeros(output_size)
+    print(f'Output layer weights: {self.weights.shape}, bias: {self.bias.shape}')
+    print(f"Output layer input size: {self.input_size}, output size: {self.output_size}")
     
     self.learning_rate = learning_rate
     self.beta1 = beta1
@@ -27,16 +29,17 @@ class output_layer:
     y_hat = np.clip(y_hat, 1e-15, 1. - 1e-15)
     return -np.mean(np.sum(y * np.log(y_hat), axis=-1))
 
-  def feedforward(self, x):
+  def forward(self, x):
     self.z = np.dot(x, self.weights) + self.bias
     self.activation = self.softmax(self.z)
     return self.activation
   
-  def backward(self, hidden_output, y_hat, y):
+  def backward(self, hidden_activation, y_hat, y):
+    print("backward")
     self.timestep += 1
     gradient_output = self.cost(y_hat, y, deriv=True)
 
-    gradient_weights = np.dot(hidden_output.T, gradient_output)
+    gradient_weights = np.dot(hidden_activation.T, gradient_output)
     gradient_bias = np.sum(gradient_output, axis=0)
 
     self.momentum_weights = self.beta1 * self.momentum_weights + (1 - self.beta1) * gradient_weights

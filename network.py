@@ -69,8 +69,10 @@ class NeuralNetwork:
     self.timestep += 1
 
     Eo = self.cost(y_hat, y, deriv=True)
-    Eh = np.dot (Eo, self.W_HO.T) * self.relu(self.hidden_z, True)
-    
+    Eh = np.dot(Eo, self.W_HO.T) * self.relu(self.hidden_z, True)
+    print(f"Eo: {Eo.shape}, Eh: {Eh.shape}")
+    print(f"weights: {self.W_HO.T.shape}")
+
     dW_IH = np.dot(x.T, Eh)
     db_H = np.sum(Eh, axis=0)
     dW_HO = np.dot(self.hidden_activation.T, Eo)

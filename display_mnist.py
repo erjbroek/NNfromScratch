@@ -1,10 +1,12 @@
 import tkinter as tk
 import numpy as np
 from PIL import Image, ImageDraw
-from network import NeuralNetwork
 import pandas as pd
+from network import NeuralNetwork
 from PIL import Image, ImageTk
 from animation import Animations
+
+
 
 mnist_train = pd.read_csv('./data/mnist/mnist_train.csv', header=None)
 mnist_test = pd.read_csv('./data/mnist/mnist_test.csv', header=None)
