@@ -6,8 +6,6 @@ class output_layer:
     self.output_size = output_size
     self.weights = np.random.randn(input_size, output_size) * np.sqrt(2.0 / input_size)
     self.bias = np.zeros(output_size)
-    print(f'Output layer weights: {self.weights.shape}, bias: {self.bias.shape}')
-    print(f"Output layer input size: {self.input_size}, output size: {self.output_size}")
     
     self.learning_rate = learning_rate
     self.beta1 = beta1
@@ -35,7 +33,6 @@ class output_layer:
     return self.activation
   
   def backward(self, hidden_activation, y_hat, y):
-    # print("backward")
     self.timestep += 1
     gradient_output = self.cost(y_hat, y, deriv=True)
 

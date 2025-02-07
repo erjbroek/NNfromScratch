@@ -23,24 +23,17 @@ class hidden_layer:
     return np.maximum(0, x)
 
   def forward(self, x):
-    # print('hidden forward')
-    # print(f"x: {x.shape}, weights: {self.weights.shape}, bias: {self.bias.shape}")
     self.z = np.dot(x, self.weights) + self.bias
     self.activation = self.relu(self.z)
     return self.activation
   
   def backward(self, x, weights, error):
-    # print("backwards")
     self.timestep += 1
-    # print(f"error: {error.shape}, weights: {weights.shape}")
     error = np.dot(error, weights) * self.relu(self.z, is_deriv=True)
 
     weights_gradient = np.dot(x.T, error)
     bias_gradient = np.sum(error, axis=0)
-    # momentum_weights: (784, 392), weights_gradient: (10, 392)
-    # print()
-    # print(f"x shape: {x.T.shape}")
-    # print(f"momentum_weights: {self.momentum_weights.shape}, weights_gradient: {weights_gradient.shape}")
+    
     self.momentum_weights = self.beta1 * self.momentum_weights + (1 - self.beta1) * weights_gradient
     self.adaptive_lr_weights = self.beta2 * self.adaptive_lr_weights + (1 - self.beta2) * (weights_gradient ** 2)
     self.momentum_bias = self.beta1 * self.momentum_bias + (1 - self.beta1) * bias_gradient

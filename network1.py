@@ -12,11 +12,13 @@ class NeuralNetwork1:
 
     for i in range(amount_hidden_layers):
       if i == 0:
-        # input layer, nodes equal to input size * amount of nodes in first hidden layer
+        # input layer, amount of nodes equal to the amount of pixels
         self.network.append(hidden_layer(self.input_size, amount_nodes[i], 0.01, 0.9, 0.999))
       else:
+        # hidden layer
         self.network.append(hidden_layer(amount_nodes[i - 1], amount_nodes[i], 0.01, 0.9, 0.999))
 
+    # output layer, amount of nodes equal to amount of classes.
     self.network.append(output_layer(self.network[-1].output_size, self.output_size, 0.01, 0.9, 0.999))
 
   def train(self, epochs, batch_size):
@@ -56,11 +58,10 @@ class NeuralNetwork1:
             previous_hidden_weights = self.network[self.network.index(layer) + 1].weights
             gradient = layer.backward(previous_hidden_activation, previous_hidden_weights.T, gradient)
 
-      new_x = self.x_test
-      # x = self.x_test
+      test_x = self.x_test
       for layer in self.network:
-        new_x = layer.forward(new_x)
-      y_hat = new_x
+        test_x = layer.forward(test_x)
+      y_hat = test_x
 
       predictions = np.argmax(y_hat, axis=1)
       targets = np.argmax(self.y_test, axis=1)
