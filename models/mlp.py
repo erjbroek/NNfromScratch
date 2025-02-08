@@ -1,6 +1,6 @@
 import numpy as np
 
-class NeuralNetwork:
+class Mlp:
   # the weights are a matrix (can be seen as nested lists)
   # the first dimension is the amount of nodes in the previous layer
   # the second dimension is the amount of nodes in the next layer

@@ -1,8 +1,9 @@
 from sklearn.model_selection import train_test_split
 import numpy as np
-from hidden_layer import hidden_layer
-from output_layer import output_layer
-class NeuralNetwork1:
+from models.layers.hidden_layer import hidden_layer
+from models.layers.output_layer import output_layer
+
+class dynamic_mlp:
   def __init__(self, x_train, y_train, x_test, y_test, input_size, output_size, amount_hidden_layers, amount_nodes):
     self.x_train, self.x_test, self.y_train, self.y_test = x_train, x_test, y_train, y_test
     self.input_size = input_size

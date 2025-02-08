@@ -2,8 +2,16 @@ import tkinter as tk
 import numpy as np
 from PIL import Image, ImageDraw
 import pandas as pd
-from network import NeuralNetwork
 from PIL import Image, ImageTk
+
+import sys
+import os
+
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+if project_root not in sys.path:
+    sys.path.append(project_root)
+
+from models.mlp import Mlp
 from animation import Animations
 
 
@@ -20,7 +28,7 @@ input_size = len(mnist_train_x[0])
 output_size = len(np.unique(mnist_train.iloc[:, 0].values))
 hidden_size = input_size // 2
 
-network = NeuralNetwork(input_size, hidden_size, output_size)
+network = Mlp(input_size, hidden_size, output_size)
 epochs = 5
 learning_rate = 0.01
 

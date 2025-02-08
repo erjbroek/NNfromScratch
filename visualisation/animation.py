@@ -1,8 +1,8 @@
 from collections import defaultdict
-from connection import Connection
-from node import Node
+from visualisation.connection import Connection
+from visualisation.node import Node
 import random
-from pixel import Pixel
+from visualisation.pixel import Pixel
 import tkinter as tk
 
 
