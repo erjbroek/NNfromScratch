@@ -43,7 +43,7 @@ class dynamic_mlp:
         y_hat = batch_x
         
         for layer in reversed(self.network):
-          #output layer, where initial gradient is calculated
+          # output layer, where initial gradient is calculated
           if isinstance(layer, output_layer):
             previous_hidden_activation = self.network[-2].activation
             gradient = layer.backward(previous_hidden_activation, y_hat, batch_y)
@@ -69,5 +69,7 @@ class dynamic_mlp:
       acc = np.mean(predictions == targets) * 100
       accuracy.append(acc)
       print(f'Epoch: {epoch+1}/{epochs}, Accuracy: {acc}')
+    print(np.mean(accuracy))
+    print(accuracy[-1])
     return loss, accuracy
       

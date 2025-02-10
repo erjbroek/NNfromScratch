@@ -14,8 +14,6 @@ if project_root not in sys.path:
 from models.mlp import Mlp
 from animation import Animations
 
-
-
 mnist_train = pd.read_csv('./data/mnist/mnist_train.csv', header=None)
 mnist_test = pd.read_csv('./data/mnist/mnist_test.csv', header=None)
 
@@ -29,7 +27,7 @@ output_size = len(np.unique(mnist_train.iloc[:, 0].values))
 hidden_size = input_size // 2
 
 network = Mlp(input_size, hidden_size, output_size)
-epochs = 5
+epochs = 3
 learning_rate = 0.01
 
 loss, accuracy = network.train_mbgd(mnist_train_x, mnist_train_y, epochs, learning_rate, 64)
