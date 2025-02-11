@@ -4,12 +4,12 @@ import pandas
 import matplotlib.pyplot as plt
 
 def augment(X, y):
-  X = X.values.reshape(-1, 28, 28, 1) / 255.0
+  X = X.reshape(-1, 28, 28, 1)
   X_augmented = np.empty_like(X)
     
   for i in range(len(X)):
     # beta is for rotation or horizontal shearing
-    beta = np.random.uniform(-7.5, 7.5) if y[i] in [1, 7] else np.random.uniform(-15.0, 15.0)
+    beta = np.random.uniform(-7.5, 7.5) if np.any(y[i] == 1) or np.any(y[i] == 7) else np.random.uniform(-15.0, 15.0)
 
     # gamma is for horizontal and vertical scaling
     gamma = np.random.uniform(15, 20)
@@ -28,19 +28,17 @@ def augment(X, y):
     X_augmented[i] = datagen.random_transform(X[i])
 
   X_augmented = X_augmented.reshape(-1, 784)
-  # augmented_data = np.column_stack((y, X_augmented))
-  return pandas.DataFrame(X_augmented)
+  return X_augmented
 
 
-def render_mnist_augmentation(data, augmented_x, y, amount_images):
-  X = data.iloc[:, 1:].values / 255
-
-  augmented_data = augmented_data.iloc[:, 1:].values / 255
+def render_mnist_augmentation(normal_data_x, augmented_data_x, y, amount_images):
+  normal_data_normalised = normal_data_x /  255
+  augmented_data_normalised = augmented_data_x / 255
 
   fig, axes = plt.subplots(2, amount_images, figsize=(15, 6))
 
   for idx, ax in zip(range(amount_images), axes[0]):
-    ax.imshow(X[idx].reshape(28, 28), cmap='gray')
+    ax.imshow(normal_data_normalised[idx].reshape(28, 28), cmap='gray')
     ax.axhline(color='red', y = 9)
     ax.axhline(color='red', y = 18)
 
@@ -50,7 +48,7 @@ def render_mnist_augmentation(data, augmented_x, y, amount_images):
     ax.axis('off')
 
   for idx, ax in zip(range(amount_images), axes[1]):
-    ax.imshow(augmented_data[idx].reshape(28, 28), cmap='gray')
+    ax.imshow(augmented_data_normalised[idx].reshape(28, 28), cmap='gray')
     ax.axhline(color='red', y = 9)
     ax.axhline(color='red', y = 18)
 
