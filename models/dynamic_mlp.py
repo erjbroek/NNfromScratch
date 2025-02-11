@@ -3,10 +3,14 @@ import numpy as np
 from models.layers.hidden_layer import hidden_layer
 from models.layers.output_layer import output_layer
 from augment_mnist import augment
+import pandas
 
 class dynamic_mlp:
-  def __init__(self, x_train, y_train, x_test, y_test, input_size, output_size, amount_hidden_layers, amount_nodes):
+  def __init__(self, x_train, x_test, y_train, y_test, input_size, output_size, amount_hidden_layers, amount_nodes):
+
     self.x_train, self.x_test, self.y_train, self.y_test = x_train, x_test, y_train, y_test
+    # self.y_train = np.eye(10)[train_set.iloc[:, 0].values]
+    # self.test_set = test_set.iloc[:, 1:].values
     self.input_size = input_size
     self.output_size = output_size
     print(f"Input size: {self.input_size}, Output size: {self.output_size}")
@@ -31,13 +35,16 @@ class dynamic_mlp:
     for epoch in range(epochs):
       indices = np.arange(n_samples)
       np.random.shuffle(indices)
-      x = augment(self.x_train[indices])
+      x = self.x_train[indices]
       y = self.y_train[indices]
+      x = augment(x, y)
 
       for start in range(0, n_samples, batch_size):
         end = min(start + batch_size, n_samples)
         batch_x = x[start:end]
         batch_y = y[start:end]
+        print(f"batch_x: {batch_x.shape}")
+        print(f"batch_y: {batch_y.shape}")
 
         for layer in self.network:
           batch_x = layer.forward(batch_x)
@@ -50,7 +57,6 @@ class dynamic_mlp:
             gradient = layer.backward(previous_hidden_activation, y_hat, batch_y)
 
           # hidden layer, which uses the gradient from the next layer
-          # elif self.network.index(layer) > 0:
           elif self.network.index(layer) > 0:
             previous_hidden_activation = self.network[self.network.index(layer) - 1].activation
             previous_hidden_weights = self.network[self.network.index(layer) + 1].weights
@@ -60,7 +66,7 @@ class dynamic_mlp:
             previous_hidden_weights = self.network[self.network.index(layer) + 1].weights
             gradient = layer.backward(previous_hidden_activation, previous_hidden_weights.T, gradient)
 
-      test_x = self.x_test
+      test_x = self.x_test / 255
       for layer in self.network:
         test_x = layer.forward(test_x)
       y_hat = test_x

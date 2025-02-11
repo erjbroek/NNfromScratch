@@ -3,10 +3,8 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import pandas
 import matplotlib.pyplot as plt
 
-def augment(data): 
-  X = data.iloc[:, 1:].values.reshape(-1, 28, 28, 1) / 255.0
-  y = data.iloc[:, 0].values
-
+def augment(X, y):
+  X = X.values.reshape(-1, 28, 28, 1) / 255.0
   X_augmented = np.empty_like(X)
     
   for i in range(len(X)):
@@ -30,13 +28,12 @@ def augment(data):
     X_augmented[i] = datagen.random_transform(X[i])
 
   X_augmented = X_augmented.reshape(-1, 784)
-  augmented_data = np.column_stack((y, X_augmented))
-  return pandas.DataFrame(augmented_data)
+  # augmented_data = np.column_stack((y, X_augmented))
+  return pandas.DataFrame(X_augmented)
 
 
-def render_mnist_augmentation(data, augmented_data, amount_images):
+def render_mnist_augmentation(data, augmented_x, y, amount_images):
   X = data.iloc[:, 1:].values / 255
-  y = data.iloc[:, 0].values
 
   augmented_data = augmented_data.iloc[:, 1:].values / 255
 
