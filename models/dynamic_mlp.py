@@ -2,6 +2,7 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 from models.layers.hidden_layer import hidden_layer
 from models.layers.output_layer import output_layer
+from augment_mnist import augment
 
 class dynamic_mlp:
   def __init__(self, x_train, y_train, x_test, y_test, input_size, output_size, amount_hidden_layers, amount_nodes):
@@ -30,7 +31,7 @@ class dynamic_mlp:
     for epoch in range(epochs):
       indices = np.arange(n_samples)
       np.random.shuffle(indices)
-      x = self.x_train[indices]
+      x = augment(self.x_train[indices])
       y = self.y_train[indices]
 
       for start in range(0, n_samples, batch_size):

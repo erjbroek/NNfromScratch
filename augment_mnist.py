@@ -44,11 +44,21 @@ def render_mnist_augmentation(data, augmented_data, amount_images):
 
   for idx, ax in zip(range(amount_images), axes[0]):
     ax.imshow(X[idx].reshape(28, 28), cmap='gray')
+    ax.axhline(color='red', y = 9)
+    ax.axhline(color='red', y = 18)
+
+    ax.axvline(color='red', x = 9)
+    ax.axvline(color='red', x = 18)
     ax.set_title(f"Original: {y[idx]}")
     ax.axis('off')
 
   for idx, ax in zip(range(amount_images), axes[1]):
     ax.imshow(augmented_data[idx].reshape(28, 28), cmap='gray')
+    ax.axhline(color='red', y = 9)
+    ax.axhline(color='red', y = 18)
+
+    ax.axvline(color='red', x = 9)
+    ax.axvline(color='red', x = 18)
     ax.set_title(f"Augmented: {y[idx]}")
     ax.axis('off')
 
