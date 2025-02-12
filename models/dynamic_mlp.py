@@ -5,7 +5,7 @@ from models.layers.output_layer import output_layer
 from augment_mnist import augment
 
 class dynamic_mlp:
-  def __init__(self, x_train, y_train, x_test, y_test, input_size, output_size, amount_hidden_layers, amount_nodes, should_augment):
+  def __init__(self, x_train, y_train, x_test, y_test, input_size, output_size, amount_hidden_layers, amount_nodes, learning_rate, should_augment):
     self.x_train, self.x_test, self.y_train, self.y_test = x_train, x_test, y_train, y_test
     self.input_size = input_size
     self.output_size = output_size
@@ -16,13 +16,13 @@ class dynamic_mlp:
     for i in range(amount_hidden_layers):
       if i == 0:
         # input layer, amount of nodes equal to the amount of pixels
-        self.network.append(hidden_layer(self.input_size, amount_nodes[i], 0.01, 0.9, 0.999))
+        self.network.append(hidden_layer(self.input_size, amount_nodes[i], learning_rate, 0.9, 0.999))
       else:
         # hidden layer
-        self.network.append(hidden_layer(amount_nodes[i - 1], amount_nodes[i], 0.01, 0.9, 0.999))
+        self.network.append(hidden_layer(amount_nodes[i - 1], amount_nodes[i], learning_rate, 0.9, 0.999))
 
     # output layer, amount of nodes equal to amount of classes.
-    self.network.append(output_layer(self.network[-1].output_size, self.output_size, 0.01, 0.9, 0.999))
+    self.network.append(output_layer(self.network[-1].output_size, self.output_size, learning_rate, 0.9, 0.999))
 
   def train(self, epochs, batch_size):
     n_samples = self.x_train.shape[0]
@@ -80,7 +80,6 @@ class dynamic_mlp:
       acc = np.mean(predictions == targets) * 100
       accuracy.append(acc)
       print(f'Epoch: {epoch+1}/{epochs}, Accuracy: {acc}')
-    print(np.mean(accuracy))
     print(accuracy[-1])
     return loss, accuracy
       

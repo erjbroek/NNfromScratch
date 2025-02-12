@@ -1,8 +1,7 @@
 import tkinter as tk
 import numpy as np
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageTk
 import pandas as pd
-from PIL import Image, ImageTk
 
 import sys
 import os
@@ -28,7 +27,7 @@ hidden_size = input_size // 2
 
 network = Mlp(input_size, hidden_size, output_size)
 epochs = 3
-learning_rate = 0.01
+learning_rate = 0.001
 
 loss, accuracy = network.train_mbgd(mnist_train_x, mnist_train_y, epochs, learning_rate, 64)
 print(accuracy)

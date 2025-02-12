@@ -12,9 +12,10 @@ Other than a neural network, a simple ui has been created with TKinter.
 - **Animation of forward propogation**: to give a clearer overview of how the predictions are made, an animation has been made of how it (roughly) works
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/213075eb-8b9e-44c7-8cd3-2085500f661f" width="500">
-  <img src="https://github.com/user-attachments/assets/8a88a6c6-b8e6-4cda-afd7-f3792fddfc7a" width="500">
+  <img src="https://github.com/user-attachments/assets/2e059f5e-bef3-4382-9ee4-aae0188ef5c2" alt="gif_mnist", width="500">
+  <img src="https://github.com/user-attachments/assets/8a88a6c6-b8e6-4cda-afd7-f3792fddfc7a" width="500" alt="image">
 </p>
+
 
 
 
@@ -34,7 +35,7 @@ Other than a neural network, a simple ui has been created with TKinter.
 | Dataset       | Accuracy | hidden layer | learning rate |
 |--------------|----------| -------- | ------- |
 | [Iris Dataset](https://en.wikipedia.org/wiki/Iris_flower_data_set) | 99.83%    | 1 hidden layer, 7 nodes | 0.0001 | 
-| [MNIST](https://en.wikipedia.org/wiki/MNIST_database) | 98.44%    | 1 hidden layer, 392 nodes | 0.01 |
+| [MNIST](https://en.wikipedia.org/wiki/MNIST_database) | 98.25%    | 1 hidden layer, 392 nodes | 0.01 |
 | [Fashion-MNIST](https://github.com/zalandoresearch/fashion-mnist) | 90.24%    | 1 hidden layer, 392 nodes | 0.001 |
 | More datasets coming soon
 
