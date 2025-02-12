@@ -13,8 +13,10 @@ Other than a neural network, a simple ui has been created with TKinter.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/2e059f5e-bef3-4382-9ee4-aae0188ef5c2" alt="gif_mnist", width="500">
-  <img src="https://github.com/user-attachments/assets/8a88a6c6-b8e6-4cda-afd7-f3792fddfc7a" width="500" alt="image">
+  <img src="https://github.com/user-attachments/assets/c382c049-cc2a-4fb7-9dfe-ec5fa17777a02" alt="gif mnist animation", width="500">
+
 </p>
+
 
 
 
