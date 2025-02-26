@@ -12,7 +12,6 @@ class dynamic_mlp:
     print(f"Input size: {self.input_size}, Output size: {self.output_size}")
     self.network = []
     self.should_augment = should_augment
-
     for i in range(amount_hidden_layers):
       if i == 0:
         # input layer, amount of nodes equal to the amount of pixels
